@@ -83,8 +83,8 @@
                             <td>{{comment.body}}</td>
                             <td>
                                 {{task.votes || 0}}
-                                <span class="glyphicon glyphicon-thumbs-up" ng-click="incrementVotes(task, 1)"></span>
-                                <span class="glyphicon glyphicon-thumbs-down" ng-click="incrementVotes(task, -1)"></span>
+                                <span class="glyphicon glyphicon-thumbs-up" ng-click="incrementScore(task, 1)"></span>
+                                <span class="glyphicon glyphicon-thumbs-down" ng-click="incrementScore(task, -1)"></span>
                             </td>
                             <td>
                                 <span class="glyphicon glyphicon-remove" ng-click="removeComment(comment)"></span>

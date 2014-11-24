@@ -34,6 +34,13 @@ angular.module('CommentApp', ['ui.bootstrap'])
                 });
         };
 
+        $scope.updateComment = function(comment) {
+            $http.put(commentsUrl + '/' + comment.objectId, comment)
+                .success(function() {
+                    //we could give some feedback to the user
+                });
+        };
+
         $scope.removeComment = function(comment) {
             if (window.confirm("Delete")) {
                 $scope.loading = true;
