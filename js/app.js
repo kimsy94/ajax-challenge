@@ -12,14 +12,14 @@ angular.module('CommentApp', ['ui.bootstrap'])
     })
     .controller('CommentsController', function($scope, $http) {
         $scope.refreshComments = function () {
-            $http.get(commentsUrl + '?where={"done":false}')
+            $http.get(commentsUrl + "?order=-score")
                 .success(function(data) {
                     $scope.comments = data.results;
                 });
         };
         $scope.refreshComments();
 
-        $scope.newComment = {done: false};
+        $scope.newComment = {score: 0};
 
         $scope.addComment = function() {
             $scope.inserting = true;
@@ -27,7 +27,7 @@ angular.module('CommentApp', ['ui.bootstrap'])
                 .success(function(responseData) {
                     $scope.newComment.objectId = responseData.objectId;
                     $scope.comments.push($scope.newComment);
-                    $scope.newComment = {done: false};
+                    $scope.newComment = {score: 0};
                 })
                 .finally(function() {
                     $scope.inserting = false;
@@ -53,6 +53,9 @@ angular.module('CommentApp', ['ui.bootstrap'])
         };
 
        $scope.incrementScore = function(comment, amount) {
+           if (comment.score <= 0 && amount < 0) {
+               return;
+           }
            var postData = {
                score: {
                    __op: "Increment",
@@ -63,7 +66,7 @@ angular.module('CommentApp', ['ui.bootstrap'])
            $scope.updating = true;
            $http.put(commentsUrl + '/' + comment.objectId, postData)
                .success(function(respData) {
-                    comment.votes = respData.votes;
+                    comment.score = respData.score;
                })
                .error(function(err) {
                     console.log(err);
